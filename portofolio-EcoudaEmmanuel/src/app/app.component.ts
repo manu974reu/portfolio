@@ -1,5 +1,6 @@
-import { WINDOW } from 'src/app/service/window.service';
-import { Component, Inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ScrollNavBar } from './service/srollNavbar.service';
 
 @Component({
   selector: 'app-root',
@@ -7,24 +8,25 @@ import { Component, Inject } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'portofolio-EcoudaEmmanuel';
-
-  constructor(@Inject(WINDOW) private window: Window) {
-    window.onscroll = () => {
-      if (window.pageYOffset === 0) {
-        document.getElementById('navbar').style.top = '0px';
-        document.getElementById('navbar').classList.value = 'navbar navbar-expand-lg navbar-light bg-transparent';
-      } else if (window.pageYOffset > 570) {
-          document.getElementById('navbar').style.top = '';
-        document.getElementById('navbar').classList.value = 'navbar navbar-expand-lg navbar-light bg-light';
-      } else if (window.pageYOffset < 700) {
-        document.getElementById('navbar').style.top = ' -100px';
-        document.getElementById('navbar').classList.value = 'navbar navbar-expand-lg navbar-light bg-transparent ';
-      }
-    };
+  public href: string ;
+  url: string ;
+  constructor(private router: Router, scroll: ScrollNavBar) {
+    scroll.scrollNavbar('navbar', 0, '0px',
+      'navbar navbar-expand-lg navbar-light bg-transparent', 570, '0px',
+      'navbar navbar-expand-lg navbar-light bg-light', 700, '-250px',
+      'navbar navbar-expand-lg navbar-light bg-transparent ', 950, '-250px');
   }
+  ngOnInit() {
+    this.href = this.router.url;
+  }
+  show() {
+    if (this.router.url === '/') {
+      return true;
+    }
 
+  }
 }
 
 
